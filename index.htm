@@ -1,0 +1,230 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Image Upscaler, Downscaler, and Compressor
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/pica@8.0.0/dist/pica.min.js"></script>
+ </head>
+ <body class="bg-gray-100 font-roboto">
+  <header class="bg-blue-600 text-white p-4">
+   <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-2xl font-bold">
+     Image Upscaler, Downscaler, and Compressor
+    </h1>
+    <nav>
+     <ul class="flex space-x-4">
+      <li>
+       <a class="hover:underline" href="#">
+        Home
+       </a>
+      </li>
+      <li>
+       <a class="hover:underline" href="#">
+        About
+       </a>
+      </li>
+      <li>
+       <a class="hover:underline" href="#">
+        Contact
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <main class="container mx-auto p-4">
+   <section class="bg-white p-6 rounded shadow-md">
+    <h2 class="text-xl font-bold mb-4">
+     Upload and Scale Your Image
+    </h2>
+    <form class="space-y-4" id="scaleForm">
+     <div>
+      <label class="block text-sm font-medium text-gray-700" for="imageUpload">
+       Upload Image
+      </label>
+      <input class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="imageUpload" type="file" accept="image/*" required/>
+     </div>
+     <div>
+      <label class="block text-sm font-medium text-gray-700" for="scale">
+       Select Scale
+      </label>
+      <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="scale">
+       <option value="0.5">
+        0.5x (Downscale)
+       </option>
+       <option value="0.25">
+        0.25x (Downscale)
+       </option>
+       <option value="2">
+        2x (Upscale)
+       </option>
+       <option value="4">
+        4x (Upscale)
+       </option>
+       <option value="8">
+        8x (Upscale)
+       </option>
+       <option value="16">
+        16x (Upscale)
+       </option>
+       <option value="32">
+        32x (Upscale)
+       </option>
+      </select>
+     </div>
+     <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit">
+      Scale Image
+     </button>
+    </form>
+   </section>
+   <section class="mt-8 hidden" id="resultSection">
+    <h2 class="text-xl font-bold mb-4">
+     Scaled Image
+    </h2>
+    <div class="bg-white p-6 rounded shadow-md">
+     <img alt="Scaled image preview" class="w-full h-auto" id="scaledImage" src=""/>
+     <div class="mt-4 flex justify-between items-center">
+      <a class="bg-green-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" download="scaled_image.png" href="#" id="downloadLink">
+       Download Image
+      </a>
+      <button class="bg-red-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="newImageButton">
+       Scale Another Image
+      </button>
+     </div>
+    </div>
+   </section>
+   <section class="bg-white p-6 rounded shadow-md mt-8">
+    <h2 class="text-xl font-bold mb-4">
+     Compress Your Image
+    </h2>
+    <form class="space-y-4" id="compressForm">
+     <div>
+      <label class="block text-sm font-medium text-gray-700" for="compressImageUpload">
+       Upload Image
+      </label>
+      <input class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="compressImageUpload" type="file" accept="image/*" required/>
+     </div>
+     <div>
+      <label class="block text-sm font-medium text-gray-700" for="quality">
+       Select Quality (1-100)
+      </label>
+      <input class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" id="quality" type="range" min="1" max="100" value="90" required/>
+      <div class="text-center mt-2">
+       <span id="qualityValue">
+        90
+       </span>
+      </div>
+     </div>
+     <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit">
+      Compress Image
+     </button>
+    </form>
+   </section>
+   <section class="mt-8 hidden" id="compressResultSection">
+    <h2 class="text-xl font-bold mb-4">
+     Compressed Image
+    </h2>
+    <div class="bg-white p-6 rounded shadow-md">
+     <img alt="Compressed image preview" class="w-full h-auto" id="compressedImage" src=""/>
+     <div class="mt-4 flex justify-between items-center">
+      <a class="bg-green-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" download="compressed_image.png" href="#" id="compressDownloadLink">
+       Download Image
+      </a>
+      <button class="bg-red-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="newCompressImageButton">
+       Compress Another Image
+      </button>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="bg-blue-600 text-white p-4 mt-8">
+   <div class="container mx-auto text-center">
+    <p>
+     © 2023 Image Upscaler, Downscaler, and Compressor. All rights reserved.
+    </p>
+   </div>
+  </footer>
+  <script>
+   document.getElementById('scaleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('imageUpload');
+            const scale = parseFloat(document.getElementById('scale').value);
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = img.width * scale;
+                        canvas.height = img.height * scale;
+                        pica().resize(img, canvas)
+                            .then(result => pica().toBlob(result, 'image/png', 0.90))
+                            .then(blob => {
+                                const url = URL.createObjectURL(blob);
+                                const scaledImage = document.getElementById('scaledImage');
+                                scaledImage.src = url;
+                                const downloadLink = document.getElementById('downloadLink');
+                                downloadLink.href = url;
+                                document.getElementById('resultSection').classList.remove('hidden');
+                            });
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('newImageButton').addEventListener('click', function() {
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('scaleForm').reset();
+        });
+
+        document.getElementById('quality').addEventListener('input', function() {
+            document.getElementById('qualityValue').textContent = this.value;
+        });
+
+        document.getElementById('compressForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('compressImageUpload');
+            const quality = parseInt(document.getElementById('quality').value) / 100;
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                        canvas.toBlob(function(blob) {
+                            const url = URL.createObjectURL(blob);
+                            const compressedImage = document.getElementById('compressedImage');
+                            compressedImage.src = url;
+                            const compressDownloadLink = document.getElementById('compressDownloadLink');
+                            compressDownloadLink.href = url;
+                            document.getElementById('compressResultSection').classList.remove('hidden');
+                        }, 'image/jpeg', quality);
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('newCompressImageButton').addEventListener('click', function() {
+            document.getElementById('compressResultSection').classList.add('hidden');
+            document.getElementById('compressForm').reset();
+        });
+  </script>
+ </body>
+</html>
